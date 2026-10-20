@@ -1,4 +1,4 @@
-"""Pesticide sales in France - a data story (EFREI Data Stories 2026).
+"""PestiScope - pesticide sales in France, a data story (EFREI Data Stories 2026).
 
 Run: streamlit run app.py
 """
@@ -11,10 +11,11 @@ from utils.io import load_processed, processed_exists, source_caption
 from utils.prep import build_tables, filter_dept, filter_substance
 
 st.set_page_config(
-    page_title="Pesticide sales in France",
+    page_title="PestiScope - Pesticide sales in France",
     page_icon="assets/icon.png",
     layout="wide",
 )
+st.logo("assets/logo.png", size="large", icon_image="assets/icon.png")
 
 SCOPES = {
     "All active substances": None,
@@ -94,7 +95,8 @@ ctx = {
 }
 
 # ------------------------------------------------------------------ page
-st.title("Pesticides in France: are we really selling less?")
+st.image("assets/logo.png", width=380)  # logo with the app name, used as page title
+st.markdown("#### Pesticide sales in France, 2009-2024: are we really selling less?")
 st.caption(source_caption())
 if missing_years:
     st.warning(f"Missing years in the data: {', '.join(map(str, missing_years))}. "
