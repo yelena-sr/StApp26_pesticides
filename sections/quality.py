@@ -1,5 +1,3 @@
-"""Data quality: missingness, duplicates, validation checks, known biases."""
-
 import pandas as pd
 import streamlit as st
 
@@ -37,8 +35,8 @@ def render(ctx):
     st.subheader("Can we trust these numbers?")
     total_raw, total_clean = int(used["rows_raw"].sum()), int(used["rows_clean"].sum())
     st.markdown(
-        f"The app reads **{len(used)} yearly files** ({total_raw:,} raw rows). "
-        f"After cleaning, **{total_clean:,} rows** ({total_clean / total_raw:.1%}) feed the charts. "
+        f"The app reads {len(used)} yearly files ({total_raw:,} raw rows). "
+        f"After cleaning, {total_clean:,} rows ({total_clean / total_raw:.1%}) feed the charts. "
         "Cleaning runs in `utils/prep.py`; the steps are listed below."
     )
 
@@ -78,15 +76,15 @@ def render(ctx):
 
     st.markdown("#### Known biases and limits")
     st.markdown(
-        "- **Seller location.** Sales are attached to the department of the distributor. "
+        "- Seller location. Sales are attached to the department of the distributor. "
         "Border areas and big distribution hubs are over-stated.\n"
-        "- **Sales ≠ use.** Stocks bought one year can be used the next (see the 2018 peak).\n"
-        f"- **Classification change in {NOMENCLATURE_BREAK}.** Before: N minéral, N organique, "
+        "- Sales ≠ use. Stocks bought one year can be used the next (see the 2018 peak).\n"
+        f"- Classification change in {NOMENCLATURE_BREAK}. Before: N minéral, N organique, "
         "T/T+/CMR, Autre. After: CMR, Santé A, Env A, Env B, Autre. The coarse groups in this "
         "app smooth the break but do not remove it.\n"
-        "- **Revisions.** Each new edition can correct past years. This app uses the "
+        "- Revisions. Each new edition can correct past years. This app uses the "
         "2025-11-25 edition only.\n"
-        "- **Weight is not toxicity.** Tonnes favour heavy mineral products (sulphur, copper)."
+        "- Weight is not toxicity. Tonnes favour heavy mineral products (sulphur, copper)."
     )
 
     with st.expander("Full quality table per file"):

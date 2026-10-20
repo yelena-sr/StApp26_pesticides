@@ -1,5 +1,10 @@
 [theme]
 primaryColor = "#1B4332"
+# info boxes and links in violet instead of blue
+blueColor = "#7E57C2"
+blueBackgroundColor = "#EFE8F8"
+blueTextColor = "#4A2C82"
+linkColor = "#7E57C2"
 
 [server]
 headless = true

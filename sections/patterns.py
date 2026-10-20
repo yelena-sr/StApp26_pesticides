@@ -1,5 +1,3 @@
-"""Correspondence analysis (AFC, course CM2): region x category."""
-
 import streamlit as st
 
 from utils import viz
@@ -15,9 +13,9 @@ def render(ctx):
     st.subheader("Do regions have their own pesticide profile?")
     st.markdown(
         "A table *region × category* hides a lot of structure. "
-        "**Correspondence analysis** (AFC, see course CM2) compares each region's mix "
+        "Correspondence analysis (AFC, see course CM2) compares each region's mix "
         "with the national mix. On the map below, a region close to a category sells "
-        "**relatively more** of it than the national average. Regions close to the centre "
+        "relatively more of it than the national average. Regions close to the centre "
         "have an average profile."
     )
 
@@ -58,7 +56,7 @@ def render(ctx):
                  "in sales), coloured diamonds are categories. Axis 1 and 2 summarise "
                  f"{(inertia[0] + inertia[1]):.0%} of the differences between regions.")
     with right:
-        st.markdown("**How much does the map show?**")
+        st.markdown("##### How much does the map show?")
         viz.show(viz.inertia_bar(inertia), "Bar chart of the share of inertia on each axis.")
         st.caption(f"Total inertia: {total_inertia:.3f}. It measures how far regional profiles "
                    "are from the national profile (0 = all regions identical).")
@@ -67,8 +65,8 @@ def render(ctx):
     a1 = cols["Dim1"].sort_values()
     r1 = rows["Dim1"].sort_values()
     st.markdown(
-        f"**Reading axis 1 ({inertia[0]:.0%}).** It opposes **{a1.index[0]}** "
-        f"(left, with {', '.join(r1.index[:2])}) to **{a1.index[-1]}** "
+        f"Reading axis 1 ({inertia[0]:.0%}). It opposes {a1.index[0]} "
+        f"(left, with {', '.join(r1.index[:2])}) to {a1.index[-1]} "
         f"(right, with {', '.join(r1.index[-2:])})."
     )
     if col == "classification":
@@ -81,12 +79,12 @@ def render(ctx):
                  "region's sales.")
     with st.expander("Method and limits"):
         st.markdown(
-            "- Input: contingency table of **kilograms** sold, region × category.\n"
+            "- Input: contingency table of kilograms sold, region × category.\n"
             "- Steps: frequencies, row and column margins, standardised residuals, SVD.\n"
             "- Distances use the chi-square metric, so a category with a small weight can still "
             "pull a region if it is over-represented there.\n"
             "- No chi-square test is shown: counts here are kilograms, not independent "
             "observations, so a p-value would be meaningless.\n"
-            "- Hover a region to see its **cos²**: below 0.5 the point is poorly represented "
+            "- Hover a region to see its cos²: below 0.5 the point is poorly represented "
             "on this plane, so read its position with care."
         )

@@ -1,5 +1,3 @@
-"""Map, rankings, regional small multiples and top substances."""
-
 import streamlit as st
 
 from utils import viz
@@ -57,8 +55,8 @@ def render(ctx):
         if not last.empty:
             best, worst = last.iloc[0], last.iloc[-1]
             st.markdown(
-                f"Index 100 = {start}. Lowest in {end}: **{best['region']}** "
-                f"({best['index']:.0f}). Highest: **{worst['region']}** ({worst['index']:.0f})."
+                f"Index 100 = {start}. Lowest in {end}: {best['region']} "
+                f"({best['index']:.0f}). Highest: {worst['region']} ({worst['index']:.0f})."
             )
         viz.show(viz.small_multiples(idx),
                  f"Small multiples: one line chart per region, sales indexed to 100 in {start}. "

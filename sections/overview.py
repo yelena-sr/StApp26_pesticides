@@ -1,5 +1,3 @@
-"""KPIs and high-level trends."""
-
 import streamlit as st
 
 from utils import viz
@@ -55,7 +53,7 @@ def render(ctx):
         st.subheader(f"Between {start} and {end}, sales {verb} by {abs(change):.0f}%.")
     else:
         st.subheader(f"Sales in {end}")
-    st.markdown(f"Scope: **{ctx['scope_label']}**, uses: {', '.join(ctx['functions'])}.")
+    st.markdown(f"Scope: {ctx['scope_label']}, uses: {', '.join(ctx['functions'])}.")
 
     ts = (dept.groupby(["annee", "fonction_group"], as_index=False)["qty_kg"].sum()
               .assign(tonnes=lambda x: x["qty_kg"] / 1000))

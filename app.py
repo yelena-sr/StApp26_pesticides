@@ -102,8 +102,16 @@ if missing_years:
     st.warning(f"Missing years in the data: {', '.join(map(str, missing_years))}. "
                "Add the matching files to data/raw/ and run scripts/build_data.py.")
 
-tabs = st.tabs(["1. Why it matters", "2. The big picture", "3. Where and what",
-                "4. Hidden patterns", "5. Data quality", "6. Takeaways"])
+# tabs spread evenly over the full width
+st.markdown(
+    """<style>
+    .stTabs [role="tablist"] { width: 100%; display: flex; gap: 0; }
+    .stTabs [role="tablist"] [role="tab"] { flex: 1 1 0; justify-content: center; text-align: center; }
+    </style>""",
+    unsafe_allow_html=True,
+)
+tabs = st.tabs(["Why it matters", "The big picture", "Where and what",
+                "Hidden patterns", "Data quality", "Takeaways"])
 with tabs[0]:
     intro.render(ctx)
 with tabs[1]:
