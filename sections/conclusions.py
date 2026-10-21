@@ -54,12 +54,11 @@ def render(ctx):
             )
 
     st.subheader("What we learned")
-    for text in insights:
-        st.markdown(f"- {text}")
+    st.info("\n".join(f"- {text}" for text in insights))
     st.caption("These sentences update with the sidebar filters.")
 
     st.subheader("So what?")
-    st.success(
+    st.info(
         "- Weight alone is a weak target. A drop in tonnes can hide a switch to "
         "lighter but more potent molecules. Track hazard classes and treated surfaces too.\n"
         "- Act where sales concentrate. A few departments carry most of the volume: "
@@ -69,7 +68,7 @@ def render(ctx):
     )
 
     st.subheader("Next steps")
-    st.markdown(
+    st.info(
         "- Join with the purchase files (buyer postcode) to get closer to real use.\n"
         "- Divide by agricultural area per department to compare intensity, not size.\n"
         "- Cross with water quality data (pesticides in groundwater) to test the link "
