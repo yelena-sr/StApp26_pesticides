@@ -8,6 +8,7 @@ from utils.metrics import by_department, change_by_department, fmt_t, region_ind
 def render(ctx):
     dept, subst = ctx["dept"], ctx["subst"]
     start, end = ctx["years"]
+    # empty filters guard
     if dept.empty:
         st.warning("No data for these filters.")
         return

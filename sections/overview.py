@@ -1,6 +1,6 @@
 import streamlit as st
 
-from utils import viz
+from utils import style, viz
 from utils.constants import NOMENCLATURE_BREAK
 from utils.metrics import (
     cmr_share, fmt_pct, fmt_t, n_substances, pct_change, peak_note, tonnes_by_year, total_t,
@@ -17,30 +17,33 @@ def kpi_row(ctx):
     n_end, n_start = n_substances(subst, end), n_substances(subst, start)
     series = tonnes_by_year(dept)
 
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric(f"Sold in {end}", fmt_t(t_end),
-              f"{fmt_pct(pct_change(t_end, t_start))} vs {start}" if start != end else None,
-              delta_color="inverse", border=True,
-              help="Tonnes of active substance, current filters.")
+    # KPI cards
+    cards = []
+    ch = pct_change(t_end, t_start) if start != end else None
+    cards.append({"label": f"Sold in {end}", "value": fmt_t(t_end),
+                  "note": f"{fmt_pct(ch)} vs {start}" if ch is not None else "tonnes of active substance",
+                  "tone": "bad" if ch is not None and ch > 0 else "good" if ch is not None else ""})
     if len(series):
-        c2.metric(f"Yearly average {start}-{end}", fmt_t(series.mean()),
-                  f"peak {int(series.idxmax())}", delta_color="off", border=True)
+        cards.append({"label": f"Yearly average {start}-{end}", "value": fmt_t(series.mean()),
+                      "note": f"peak in {int(series.idxmax())}"})
     if share_end is not None:
-        delta = None
+        note, tone = "share of tonnes", ""
         if cmr_base != end and share_start is not None:
-            delta = f"{share_end - share_start:+.1f} pts vs {cmr_base}"
-        c3.metric(f"Toxic / CMR share in {end}", fmt_pct(share_end, signed=False), delta,
-                  delta_color="inverse", border=True,
-                  help="Share of tonnes in the 'Toxic / CMR' class. Compared with 2019 at the "
-                       "earliest, because the classification changed that year.")
-    c4.metric(f"Active substances sold in {end}", f"{n_end}",
-              f"{n_end - n_start:+d} vs {start}" if start != end else None,
-              delta_color="off", border=True)
+            diff = share_end - share_start
+            note, tone = f"{diff:+.1f} pts vs {cmr_base}", "bad" if diff > 0 else "good"
+        cards.append({"label": f"Toxic / CMR share in {end}", "value": fmt_pct(share_end, signed=False),
+                      "note": note, "tone": tone, "accent": "violet"})
+    cards.append({"label": f"Substances sold in {end}", "value": f"{n_end}",
+                  "note": f"{n_end - n_start:+d} vs {start}" if start != end else "distinct molecules"})
+    style.kpi_cards(cards)
+    st.caption("Tonnes of active substance under the current filters. The CMR share is compared "
+               "with 2019 at the earliest, because the classification changed that year.")
 
 
 def render(ctx):
     dept = ctx["dept"]
     start, end = ctx["years"]
+    # empty filters guard
     if dept.empty:
         st.warning("No data for these filters.")
         return
@@ -48,6 +51,7 @@ def render(ctx):
 
     series = tonnes_by_year(dept)
     change = pct_change(series.get(end, 0), series.get(start, 0))
+    # headline insight
     if start != end and change is not None:
         verb = "fell" if change < 0 else "rose"
         st.subheader(f"Between {start} and {end}, sales {verb} by {abs(change):.0f}%.")
@@ -55,6 +59,7 @@ def render(ctx):
         st.subheader(f"Sales in {end}")
     st.markdown(f"Scope: {ctx['scope_label']}, uses: {', '.join(ctx['functions'])}.")
 
+    # trend by use, 2018 peak annotation
     ts = (dept.groupby(["annee", "fonction_group"], as_index=False)["qty_kg"].sum()
               .assign(tonnes=lambda x: x["qty_kg"] / 1000))
     fig = viz.area_by_function(ts, ctx["years"], peak_note(series))
@@ -65,6 +70,7 @@ def render(ctx):
     st.caption("Year-to-year moves are large: farmers stock up before price or tax changes, "
                "and weather drives fungicide needs. Read the trend, not a single year.")
 
+    # hazard mix, 2019 break
     st.subheader("How dangerous is what we sell?")
     sh = (dept.groupby(["annee", "hazard_group"], as_index=False)["qty_kg"].sum()
               .assign(tonnes=lambda x: x["qty_kg"] / 1000))

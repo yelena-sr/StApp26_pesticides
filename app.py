@@ -74,10 +74,16 @@ with st.sidebar:
     st.markdown("##### Yéléna SAINTE-ROSE BRUNY")
     st.markdown(
         "Program: Master Data & AI, Bio-informatics major  \n"
+        "Course: Data analysis and visualization  \n"
         "Year: I2-BIO 2026/2027  \n"
         "Email: [yelena.sainte-rose-bruny@efrei.net](mailto:yelena.sainte-rose-bruny@efrei.net)  \n"
         "LinkedIn: [linkedin.com/in/yelesr](https://www.linkedin.com/in/yelesr/)  \n"
         "GitHub: [yelena-sr/StApp26_pesticides](https://github.com/yelena-sr/StApp26_pesticides)"
+    )
+    # supervisor
+    st.markdown(
+        "Supervisor: Mano Joseph MATHEW  \n"
+        "LinkedIn: [linkedin.com/in/manomathew](https://www.linkedin.com/in/manomathew/)"
     )
 
 if not functions:

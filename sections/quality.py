@@ -32,6 +32,7 @@ def checks_table(q):
 def render(ctx):
     q = ctx["tables"]["quality"]
     used = q[q["used_in_analysis"]]
+    # rows read vs kept
     st.subheader("Can we trust these numbers?")
     total_raw, total_clean = int(used["rows_raw"].sum()), int(used["rows_clean"].sum())
     st.markdown(
@@ -40,9 +41,11 @@ def render(ctx):
         "Cleaning runs in `utils/prep.py`; the steps are listed below."
     )
 
+    # validation checks
     st.markdown("#### Validation checks")
     st.dataframe(checks_table(q), hide_index=True, width="stretch")
 
+    # missing quantities | substances per year
     c1, c2 = st.columns(2)
     with c1:
         viz.show(viz.quality_bar(used, "qty_missing", "Rows with no quantity"),
@@ -51,6 +54,7 @@ def render(ctx):
         viz.show(viz.quality_bar(used, "n_substances", "Distinct substances"),
                  "Bar chart of the number of distinct active substances declared each year.")
 
+    # missing values per column
     st.markdown("#### Missing values per column (raw files)")
     miss_cols = [c for c in q.columns if c.startswith("missing_")]
     miss_cols = [c for c in miss_cols if c != "missing_annee"]
@@ -61,6 +65,7 @@ def render(ctx):
                "substances flagged 'Substitution' or 'Exclusion', from 2019. Missing `cas` "
                "numbers concern mixtures and micro-organisms that have no CAS number.")
 
+    # cleaning steps
     st.markdown("#### Cleaning steps")
     st.markdown(
         "1. Strip spaces, lower-case substance names, pad department codes (`1` → `01`).\n"
@@ -74,6 +79,7 @@ def render(ctx):
         "region × substance × year) saved as Parquet, so the app loads in under a second."
     )
 
+    # biases and limits
     st.markdown("#### Known biases and limits")
     st.markdown(
         "- Seller location. Sales are attached to the department of the distributor. "
@@ -87,5 +93,6 @@ def render(ctx):
         "- Weight is not toxicity. Tonnes favour heavy mineral products (sulphur, copper)."
     )
 
+    # full quality table
     with st.expander("Full quality table per file"):
         st.dataframe(q, hide_index=True, width="stretch")

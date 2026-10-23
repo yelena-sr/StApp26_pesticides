@@ -1,5 +1,8 @@
 [theme]
+base = "light"
 primaryColor = "#1B4332"
+backgroundColor = "#FBFCFA"
+secondaryBackgroundColor = "#EAF2EC"
 # info boxes and links in violet instead of blue
 blueColor = "#7E57C2"
 blueBackgroundColor = "#EFE8F8"

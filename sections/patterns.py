@@ -10,6 +10,7 @@ from utils.prep import correspondence_analysis
 def render(ctx):
     dept = ctx["dept"]
     start, end = ctx["years"]
+    # intro to correspondence analysis
     st.subheader("Do regions have their own pesticide profile?")
     st.markdown(
         "A table *region × category* hides a lot of structure. "
@@ -19,14 +20,17 @@ def render(ctx):
         "have an average profile."
     )
 
+    # user controls
     choice = st.radio("Compare regions by", ["Use (herbicides, fungicides...)",
                                              "Hazard class (2019 and later)"], horizontal=True)
     drop_dom = st.checkbox("Exclude overseas departments", value=True,
                            help="Overseas crops (banana, sugar cane) are very different and "
                                 "pull one axis on their own.")
     d = dept[dept["region"] != "Unknown"]
+    # overseas filter
     if drop_dom:
         d = d[d["region"] != "Overseas"]
+    # category choice: use or hazard class
     if choice.startswith("Use"):
         col, colors = "fonction_group", FUNCTION_COLORS
         d = d[d["annee"] == end]
@@ -40,14 +44,17 @@ def render(ctx):
             st.warning("Choose an end year from 2019 to use the new hazard classes.")
             return
 
+    # contingency table region x category
     table = d.pivot_table(index="region", columns=col, values="qty_kg", aggfunc="sum",
                           fill_value=0)
     table = table.loc[table.sum(axis=1) > 0, table.sum(axis=0) > 0]
+    # minimum size check
     if table.shape[0] < 3 or table.shape[1] < 3:
         st.info("Not enough regions or categories with these filters (need at least 3 of each). "
                 "Clear the region filter or add uses.")
         return
 
+    # correspondence analysis | biplot | inertia per axis
     rows, cols, inertia, total_inertia = correspondence_analysis(table)
     left, right = st.columns([3, 2])
     with left:
@@ -72,11 +79,13 @@ def render(ctx):
     if col == "classification":
         st.caption(" · ".join(f"{k}: {v}" for k, v in HAZARD_LABELS.items()))
 
+    # row profiles
     with st.expander("Row profiles (% of each region's tonnes) - the data behind the map"):
         profiles = table.div(table.sum(axis=1), axis=0)
         viz.show(viz.profile_heatmap(profiles),
                  "Heatmap: each row is a region, each cell the share of a category in that "
                  "region's sales.")
+    # method and limits
     with st.expander("Method and limits"):
         st.markdown(
             "- Input: contingency table of kilograms sold, region × category.\n"
