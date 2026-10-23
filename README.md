@@ -1,12 +1,13 @@
-# Pesticides in France: are we really selling less?
+# PestiScope - Pesticides in France: are we really selling less?
 
 Individual Student Project - Streamlit Dashboard - EFREI Data Stories 2026
-Author: Yéléna SAINTE-ROSE (20230361), BIO
+Author: Yéléna SAINTE-ROSE BRUNY (20230361), I2-BIO 2026/2027
+Course: Data analysis and visualization - Supervisor: Mano Joseph MATHEW
 
-- Deployed app: <Streamlit Cloud URL>
-- Repository: <GitHub URL>
-- Demo video: <video link>
-- Storyboard: <storyboard link>
+- Deployed app: https://pesticides-france-sainte-rose.streamlit.app/
+- Repository: https://github.com/yelena-sr/StApp26_pesticides
+- Demo video: included in the submission zip (Project_recording.mov)
+- Storyboard: https://github.com/yelena-sr/StApp26_pesticides/blob/main/STORYBOARD.md
 
 
 ## 1. Overview
@@ -93,12 +94,12 @@ The cleaning pipeline is in `utils/prep.py`. For each yearly file, it:
    region and substance.
 
 The year 2008 is excluded because it is the first declaration year. Every check is shown
-in the Data quality tab of the app.
+in the Data quality chapter of the app.
 
 
 ## 5. App content
 
-The app is organised in six tabs. The sidebar filters apply to all of them: period
+The app is organised in six chapters, read in order with the navigation buttons. The sidebar filters apply to all of them: period
 (start year as baseline, end year as focus year), regions, uses and type of substance.
 
 1. Why it matters: context, audience, questions and main caveats.
@@ -147,20 +148,21 @@ The texts in the app are generated from the data, so they update with the filter
 ## 8. Project structure
 
 ```
-app.py                  page configuration, sidebar filters, tabs
+app.py                  page configuration, sidebar filters, chapter navigation
 sections/
-  intro.py              tab 1: context, audience, questions
-  overview.py           tab 2: KPIs and trends
-  deep_dives.py         tab 3: map, ranking, regions, substances
-  patterns.py           tab 4: correspondence analysis
-  quality.py            tab 5: data quality
-  conclusions.py        tab 6: findings and next steps
+  intro.py              chapter 1: context, audience, questions
+  overview.py           chapter 2: KPIs and trends
+  deep_dives.py         chapter 3: map, ranking, regions, substances
+  patterns.py           chapter 4: correspondence analysis
+  quality.py            chapter 5: data quality
+  conclusions.py        chapter 6: findings and next steps
 utils/
   constants.py          paths, source, regions, groups, colours
   io.py                 data loading
   prep.py               cleaning, feature engineering, aggregation
   metrics.py            shared calculations
   viz.py                chart functions with a common style
+  style.py              visual identity: banner, KPI cards, callouts
 scripts/
   download_data.py      downloads the raw files from data.gouv.fr
   build_data.py         builds data/processed/ from data/raw/
