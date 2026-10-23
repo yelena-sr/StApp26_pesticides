@@ -6,7 +6,7 @@ Course: Data analysis and visualization - Supervisor: Mano Joseph MATHEW
 
 - Deployed app: https://pesticides-france-sainte-rose.streamlit.app/
 - Repository: https://github.com/yelena-sr/StApp26_pesticides
-- Demo video: included in the submission zip (Project_recording.mov)
+- Demo video: included in the submission zip (Project_recording.mp4)
 - Storyboard: https://github.com/yelena-sr/StApp26_pesticides/blob/main/STORYBOARD.md
 
 
