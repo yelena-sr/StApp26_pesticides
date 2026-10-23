@@ -1,7 +1,4 @@
-"""PestiScope - pesticide sales in France, a data story (EFREI Data Stories 2026).
-
-Run: streamlit run app.py
-"""
+"""Run: streamlit run app.py"""
 
 import streamlit as st
 
@@ -70,6 +67,18 @@ with st.sidebar:
                                     "Flags exist only from 2019.")
     st.divider()
     st.caption("All quantities are kilograms of active substance, shown in tonnes.")
+
+    # author card
+    st.divider()
+    st.image("assets/efrei_logo.png", width=140)
+    st.markdown("##### Yéléna SAINTE-ROSE BRUNY")
+    st.markdown(
+        "Program: Master Data & AI, Bio-informatics major  \n"
+        "Year: I2-BIO 2026/2027  \n"
+        "Email: [yelena.sainte-rose-bruny@efrei.net](mailto:yelena.sainte-rose-bruny@efrei.net)  \n"
+        "LinkedIn: [linkedin.com/in/yelesr](https://www.linkedin.com/in/yelesr/)  \n"
+        "GitHub: [yelena-sr/StApp26_pesticides](https://github.com/yelena-sr/StApp26_pesticides)"
+    )
 
 if not functions:
     st.warning("Select at least one use in the sidebar.")
