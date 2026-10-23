@@ -1,5 +1,3 @@
-"""Chart functions. One place for style so every chart looks the same."""
-
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
@@ -51,7 +49,7 @@ def area_by_function(ts, years, peak_note=None):
         color_discrete_map=FUNCTION_COLORS,
         custom_data=["fonction_group"],
     )
-    fig.update_traces(hovertemplate="%{customdata[0]}<br>%{x}: %{y:,.0f} t<extra></extra>")
+    fig.update_traces(hovertemplate="%{customdata[0]}<br>%{x}: %{y:,.0f} tonnes<extra></extra>")
     _break_line(fig, years)
     if peak_note:
         fig.add_annotation(
@@ -70,7 +68,7 @@ def share_by_hazard(shares, years):
         color_discrete_map=HAZARD_COLORS, custom_data=["hazard_group", "tonnes"],
     )
     fig.update_traces(
-        hovertemplate="%{customdata[0]}<br>%{x}: %{y:.1f}% (%{customdata[1]:,.0f} t)<extra></extra>"
+        hovertemplate="%{customdata[0]}<br>%{x}: %{y:.1f}% (%{customdata[1]:,.0f} tonnes)<extra></extra>"
     )
     _break_line(fig, years)
     fig.update_layout(barmode="stack")
@@ -106,7 +104,7 @@ def ranking_bar(df, value_col, label, median=None):
         labels={value_col: label, "departement": ""}, custom_data=["region"],
     )
     fig.update_traces(marker_color=ACCENT,
-                      hovertemplate="%{y} (%{customdata[0]})<br>%{x:,.0f} t<extra></extra>")
+                      hovertemplate="%{y} (%{customdata[0]})<br>%{x:,.0f} tonnes<extra></extra>")
     fig.update_yaxes(categoryorder="total ascending")
     if median is not None:
         fig.add_vline(x=median, line_dash="dash", line_color="grey")
@@ -123,7 +121,7 @@ def small_multiples(idx):
     )
     fig.update_traces(line_color=ACCENT,
                       hovertemplate="%{customdata[0]}<br>%{x}: index %{y:.0f} "
-                                    "(%{customdata[1]:,.0f} t)<extra></extra>")
+                                    "(%{customdata[1]:,.0f} tonnes)<extra></extra>")
     fig.add_hline(y=100, line_dash="dot", line_color="grey")
     fig.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1], font=dict(size=12)))
     n_rows = -(-idx["region"].nunique() // 4)
@@ -142,7 +140,7 @@ def top_substances(df, label):
         custom_data=["fonction_group", "classification", "mention"],
         labels={"tonnes": label, "substance": "", "hazard_group": "Hazard"},
     )
-    fig.update_traces(hovertemplate="%{y}<br>%{x:,.0f} t<br>Use: %{customdata[0]}"
+    fig.update_traces(hovertemplate="%{y}<br>%{x:,.0f} tonnes<br>Use: %{customdata[0]}"
                                     "<br>Class: %{customdata[1]}<br>Mention: %{customdata[2]}"
                                     "<extra></extra>")
     fig.update_yaxes(categoryorder="total ascending")

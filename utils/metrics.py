@@ -1,5 +1,3 @@
-"""Small analytics helpers shared by the sections (group-bys and ratios)."""
-
 import pandas as pd
 
 
@@ -53,7 +51,7 @@ def region_index(dept, start):
 
 
 def fmt_t(value):
-    return f"{value:,.0f} t".replace(",", " ")
+    return f"{value:,.0f} tonnes".replace(",", " ")
 
 
 def fmt_pct(value, signed=True):

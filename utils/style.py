@@ -49,7 +49,7 @@ CSS = f"""
           box-shadow: 0 1px 4px rgba(0,0,0,.08); }}
 .ps-kpi.violet {{ border-left-color: {VIOLET}; }}
 .ps-kpi .label {{ font-size: .9rem; color: {MUTED}; }}
-.ps-kpi .value {{ font-family: 'Fraunces', serif; font-size: 2rem; color: {INK}; margin: 4px 0 2px 0; }}
+.ps-kpi .value {{ font-family: 'Fraunces', serif; font-size: 1.7rem; white-space: nowrap; color: {INK}; margin: 4px 0 2px 0; }}
 .ps-kpi .note {{ font-size: .85rem; color: {MUTED}; }}
 .ps-kpi .note.bad {{ color: {RED}; }}
 .ps-kpi .note.good {{ color: {GREEN}; }}
